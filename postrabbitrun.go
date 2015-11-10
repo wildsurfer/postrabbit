@@ -42,10 +42,13 @@ func run(config Config) {
 
 		for {
 			payload := <-rabbitchannel
-			ch.Publish("urlwork", "todo", false, false, amqp.Publishing{
+			err := ch.Publish("urlwork", "todo", false, false, amqp.Publishing{
 				ContentType: "text/plain",
 				Body:        []byte(payload),
 			})
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}()
 
