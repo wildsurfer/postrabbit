@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/tls"
-	"fmt"
 	"log"
 	"time"
 
@@ -12,7 +11,7 @@ import (
 
 func errorReporter(ev pq.ListenerEventType, err error) {
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Print(err)
 	}
 }
 
@@ -58,7 +57,10 @@ func run(config Config) {
 			rabbitchannel <- notification.Extra
 		case <-time.After(90 * time.Second):
 			go func() {
-				listener.Ping()
+				err := listener.Ping()
+				if err != nil {
+					log.Fatal(err)
+				}
 			}()
 		}
 	}
