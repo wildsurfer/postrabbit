@@ -25,10 +25,9 @@ func setup(config Config) {
 	}
 
 	_, err = db.Exec(`CREATE OR REPLACE FUNCTION notify_trigger() RETURNS trigger AS $$
-DECLARE
 BEGIN
-  PERFORM pg_notify('urlwork', NEW.id || ',' || NEW.url );
-  RETURN new;
+	PERFORM pg_notify('urlwork', row_to_json(NEW)::text);
+	RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;`)
 	if err != nil {

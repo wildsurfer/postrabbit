@@ -19,6 +19,8 @@ var (
 	app          = kingpin.New("postrabbit", "A PostgreSQL/RabbitMQ Example")
 	setupcommand = app.Command("setup", "setup the database for the example")
 	runcommand   = app.Command("run", "run the listener")
+	addcommand   = app.Command("add", "add a URL to the table")
+	urlarg       = addcommand.Arg("url", "url to add").String()
 )
 
 func main() {
@@ -39,5 +41,7 @@ func main() {
 		setup(config)
 	case runcommand.FullCommand():
 		run(config)
+	case addcommand.FullCommand():
+		add(config)
 	}
 }

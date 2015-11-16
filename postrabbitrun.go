@@ -41,6 +41,7 @@ func run(config Config) {
 
 		for {
 			payload := <-rabbitchannel
+			log.Println(payload)
 			err := ch.Publish("urlwork", "todo", false, false, amqp.Publishing{
 				ContentType: "text/plain",
 				Body:        []byte(payload),
