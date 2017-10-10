@@ -14,7 +14,7 @@ func setup(config Config) {
 		log.Fatal(err)
 	}
 
-	_, err = db.Exec("DROP TABLE urls;")
+	_, err = db.Exec("DROP TABLE IF EXISTS urls;")
 	if err != nil {
 		log.Fatal(err)
 	}
